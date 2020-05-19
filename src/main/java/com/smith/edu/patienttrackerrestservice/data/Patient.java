@@ -12,7 +12,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class Patient
 {
     private static final AtomicInteger ID_COUNT = new AtomicInteger(0);
-    private int id;
+    private Object _id;
     private String name;
     private String email;
     private String phoneNumber;
@@ -21,7 +21,6 @@ public class Patient
 
     public Patient(String name, String email)
     {
-        this.id = ID_COUNT.incrementAndGet();
         this.name = name;
         this.email = email;
     }

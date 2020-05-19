@@ -1,15 +1,23 @@
 package com.smith.edu.patienttrackerrestservice.database;
 
+import com.google.gson.Gson;
 import com.mongodb.MongoClient;
+import com.mongodb.MongoClientSettings;
 import com.mongodb.MongoClientURI;
-import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
 import com.smith.edu.patienttrackerrestservice.data.Patient;
 import org.bson.Document;
+import org.bson.codecs.configuration.CodecRegistry;
+import org.bson.codecs.pojo.PojoCodecProvider;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import static org.bson.codecs.configuration.CodecRegistries.fromProviders;
+import static org.bson.codecs.configuration.CodecRegistries.fromRegistries;
 
 @Component
 public class MongoConnector
@@ -23,7 +31,7 @@ public class MongoConnector
     private MongoClientURI clientURI;
     private MongoClient mongoClient;
     private MongoDatabase database;
-    public static final String PATIENTS = "patients";
+    private static final String PATIENTS = "patients";
 
     public void getConnection()
     {
@@ -32,8 +40,18 @@ public class MongoConnector
         database = mongoClient.getDatabase(dbName);
     }
 
-    public MongoCollection<Document> getPatients()
+    /**
+     * Public Method for returning all patient records in the database.
+     * @return List<Patient> - A list of Patient objects.
+     */
+    public List<Patient> getPatients()
     {
-        return database.getCollection(PATIENTS);
+        List<Patient> patients = new ArrayList<>();
+        MongoCursor<Document> cursor = database.getCollection(PATIENTS).find().iterator();
+        while (cursor.hasNext())
+        {
+            patients.add(new Gson().fromJson(cursor.next().toJson(), Patient.class));
+        }
+        return patients;
     }
 }
