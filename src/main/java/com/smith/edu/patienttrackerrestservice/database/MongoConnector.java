@@ -12,10 +12,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import javax.print.Doc;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class for communicating with a MongoDb database hosted in an Atlas cluster.
+ */
 @Component
 public class MongoConnector implements DatabaseConnector
 {
