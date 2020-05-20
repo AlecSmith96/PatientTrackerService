@@ -16,15 +16,6 @@ public class PatientController
     @Autowired
     private MongoConnector mongoConnector;
 
-    /**
-     * Method executed as soon as Bean is created.
-     */
-    @PostConstruct
-    private void getDbConnection()
-    {
-        mongoConnector.getConnection();
-    }
-
     @GetMapping("/all")
     public List<Patient> getPatients()
     {
@@ -38,8 +29,8 @@ public class PatientController
     }
 
     @PostMapping("/add")
-    public void addPatient(@PathVariable String name, @PathVariable String email, @PathVariable String phoneNumber)
+    public void addPatient(@RequestBody Patient patient)
     {
-
+        System.out.println(patient);
     }
 }

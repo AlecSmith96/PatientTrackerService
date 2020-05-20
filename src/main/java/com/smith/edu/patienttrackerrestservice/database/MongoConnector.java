@@ -13,6 +13,7 @@ import org.bson.codecs.pojo.PojoCodecProvider;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +21,7 @@ import static org.bson.codecs.configuration.CodecRegistries.fromProviders;
 import static org.bson.codecs.configuration.CodecRegistries.fromRegistries;
 
 @Component
-public class MongoConnector
+public class MongoConnector implements DatabaseConnector
 {
     @Value("${mongo.dbName}")
     private String dbName;
@@ -33,6 +34,10 @@ public class MongoConnector
     private MongoDatabase database;
     private static final String PATIENTS = "patients";
 
+    /**
+     * Method executed as soon as Bean is created.
+     */
+    @PostConstruct
     public void getConnection()
     {
         clientURI = new MongoClientURI(mongoURI);
