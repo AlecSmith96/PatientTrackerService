@@ -31,6 +31,6 @@ public class PatientController
     @PostMapping("/add")
     public void addPatient(@RequestBody Patient patient)
     {
-        System.out.println(patient);
+        mongoConnector.addNewPatient(patient);
     }
 }

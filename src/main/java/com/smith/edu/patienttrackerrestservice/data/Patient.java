@@ -2,12 +2,14 @@ package com.smith.edu.patienttrackerrestservice.data;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Data
+@NoArgsConstructor
 @AllArgsConstructor
 public class Patient
 {

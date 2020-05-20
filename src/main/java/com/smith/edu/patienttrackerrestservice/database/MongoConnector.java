@@ -2,23 +2,19 @@ package com.smith.edu.patienttrackerrestservice.database;
 
 import com.google.gson.Gson;
 import com.mongodb.MongoClient;
-import com.mongodb.MongoClientSettings;
 import com.mongodb.MongoClientURI;
+import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
 import com.smith.edu.patienttrackerrestservice.data.Patient;
 import org.bson.Document;
-import org.bson.codecs.configuration.CodecRegistry;
-import org.bson.codecs.pojo.PojoCodecProvider;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import javax.print.Doc;
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.bson.codecs.configuration.CodecRegistries.fromProviders;
-import static org.bson.codecs.configuration.CodecRegistries.fromRegistries;
 
 @Component
 public class MongoConnector implements DatabaseConnector
@@ -45,10 +41,6 @@ public class MongoConnector implements DatabaseConnector
         database = mongoClient.getDatabase(dbName);
     }
 
-    /**
-     * Public Method for returning all patient records in the database.
-     * @return List<Patient> - A list of Patient objects.
-     */
     public List<Patient> getPatients()
     {
         List<Patient> patients = new ArrayList<>();
@@ -58,5 +50,15 @@ public class MongoConnector implements DatabaseConnector
             patients.add(new Gson().fromJson(cursor.next().toJson(), Patient.class));
         }
         return patients;
+    }
+
+    public void addNewPatient(Patient newPatient)
+    {
+        MongoCollection<Document> collection = database.getCollection(PATIENTS);
+        Document doc = new Document();
+        doc.put("name", newPatient.getName());
+        doc.put("email", newPatient.getEmail());
+        doc.put("phoneNumber", newPatient.getPhoneNumber());
+        collection.insertOne(doc);
     }
 }
