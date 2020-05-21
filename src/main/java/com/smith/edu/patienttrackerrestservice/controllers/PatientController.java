@@ -23,10 +23,10 @@ public class PatientController
         return mongoConnector.getPatients();
     }
 
-    @GetMapping("/{id}")
-    public Patient displayPatientDetails(@PathVariable int id)
+    @GetMapping("/{name}")
+    public Patient displayPatientDetails(@PathVariable String name)
     {
-        return new Patient("", "");
+        return mongoConnector.getPatientDetails(name);
     }
 
     @PostMapping("/add")

@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Class for communicating with a MongoDb database hosted in an Atlas cluster.
@@ -62,5 +63,21 @@ public class MongoConnector implements DatabaseConnector
         doc.put("email", newPatient.getEmail());
         doc.put("phoneNumber", newPatient.getPhoneNumber());
         collection.insertOne(doc);
+    }
+
+    public Patient getPatientDetails(String name)
+    {
+        MongoCollection<Document> collection = database.getCollection(PATIENTS);
+        Document patientToGet = new Document("name", name);
+        Optional<Document> foundPatientOp = Optional.of(collection.find(patientToGet).first());
+
+        if (foundPatientOp.isPresent())
+        {
+            return new Gson().fromJson(foundPatientOp.get().toJson(), Patient.class);
+        }
+        else
+        {
+            return new Patient("", "");
+        }
     }
 }

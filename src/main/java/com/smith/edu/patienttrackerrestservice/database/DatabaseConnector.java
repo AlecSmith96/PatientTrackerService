@@ -21,4 +21,11 @@ public interface DatabaseConnector
      * @param newPatient - A Patient object containing name, email and phoneNumber values.
      */
     void addNewPatient(Patient newPatient);
+
+    /**
+     * Method for retrieving a Patient record from the database with the corresponding name.
+     * @param name - String representing the name of a patient.
+     * @return Patient - Object containing patients records.
+     */
+    Patient getPatientDetails(String name);
 }
