@@ -28,4 +28,10 @@ public interface DatabaseConnector
      * @return Patient - Object containing patients records.
      */
     Patient getPatientDetails(String name);
+
+    /**
+     * Method for removing a Patient record and all relating records from the database.
+     * @param name - String representing the name of the patient.
+     */
+    void removePatientRecord(String name);
 }

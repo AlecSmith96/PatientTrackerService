@@ -16,6 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static com.mongodb.client.model.Filters.eq;
+
 /**
  * Class for communicating with a MongoDb database hosted in an Atlas cluster.
  */
@@ -79,5 +81,12 @@ public class MongoConnector implements DatabaseConnector
         {
             return new Patient("", "");
         }
+    }
+
+    @Override
+    public void removePatientRecord(String name)
+    {
+        MongoCollection<Document> collection = database.getCollection(PATIENTS);
+        collection.deleteOne(eq("name", name))/*.wasAcknowledged()*/;       //returns true if record deleted, can be used for error handling later
     }
 }
