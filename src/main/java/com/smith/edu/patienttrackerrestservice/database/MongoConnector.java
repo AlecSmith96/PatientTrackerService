@@ -12,7 +12,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,6 +35,9 @@ public class MongoConnector implements DatabaseConnector
     private MongoClientURI clientURI;
     private MongoClient mongoClient;
     private MongoDatabase database;
+    private Long numPatientRecords;
+    private Long numAllergyRecords;
+    private static final String ALLERGIES = "allergies";
     private static final String PATIENTS = "patients";
 
     /**
@@ -44,6 +49,13 @@ public class MongoConnector implements DatabaseConnector
         clientURI = new MongoClientURI(mongoURI);
         mongoClient = new MongoClient(clientURI);
         database = mongoClient.getDatabase(dbName);
+        getNumRecordsPerTable();
+    }
+
+    private void getNumRecordsPerTable()
+    {
+        numPatientRecords = database.getCollection(PATIENTS).countDocuments();
+        numPatientRecords = database.getCollection(ALLERGIES).countDocuments();
     }
 
     public List<Patient> getPatients()
@@ -61,9 +73,13 @@ public class MongoConnector implements DatabaseConnector
     {
         MongoCollection<Document> collection = database.getCollection(PATIENTS);
         Document doc = new Document();
+        doc.put("_id", "P-" + (++numPatientRecords));
         doc.put("name", newPatient.getName());
         doc.put("email", newPatient.getEmail());
         doc.put("phoneNumber", newPatient.getPhoneNumber());
+        doc.put("dateOfBirth", newPatient.getDateOfBirth());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
+        doc.put("triageDate", dateFormat.format(new Date()));
         collection.insertOne(doc);
     }
 

@@ -18,6 +18,8 @@ public class Patient
     private String name;
     private String email;
     private String phoneNumber;
+    private String triageDate;
+    private String dateOfBirth;
     private List<Map<String, String>> medications;
     private List<String> allergies;
 
@@ -27,10 +29,11 @@ public class Patient
         this.email = email;
     }
 
-    public Patient(String name, String email, String phoneNumber)
+    public Patient(String name, String email, String phoneNumber, String dateOfBirth)
     {
         this.name = name;
         this.email = email;
         this.phoneNumber = phoneNumber;
+        this.dateOfBirth = dateOfBirth;
     }
 }
