@@ -4,10 +4,15 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
+/**
+ * Data class representing a Patient object to pass database record into object. Constructors, getters and setters
+ * provided by Lombok annotations.
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -21,19 +26,5 @@ public class Patient
     private String triageDate;
     private String dateOfBirth;
     private List<Map<String, String>> medications;
-    private List<String> allergies;
-
-    public Patient(String name, String email)
-    {
-        this.name = name;
-        this.email = email;
-    }
-
-    public Patient(String name, String email, String phoneNumber, String dateOfBirth)
-    {
-        this.name = name;
-        this.email = email;
-        this.phoneNumber = phoneNumber;
-        this.dateOfBirth = dateOfBirth;
-    }
+    private List<String> allergies = new ArrayList<>();
 }

@@ -3,6 +3,7 @@ package com.smith.edu.patienttrackerrestservice.controllers;
 import com.smith.edu.patienttrackerrestservice.data.Patient;
 import com.smith.edu.patienttrackerrestservice.database.MongoConnector;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,21 +24,23 @@ public class PatientController
         return mongoConnector.getPatients();
     }
 
-    @GetMapping("/{name}")
-    public Patient displayPatientDetails(@PathVariable String name)
+    @GetMapping("/{id}")
+    public Patient displayPatientDetails(@PathVariable String id)
     {
-        return mongoConnector.getPatientDetails(name);
+        return mongoConnector.getPatientDetails(id);
     }
 
+    @ResponseStatus(HttpStatus.OK)
     @PostMapping("/add")
-    public void addPatient(@RequestBody Patient patient)
+    public String addPatient(@RequestBody Patient patient)
     {
         mongoConnector.addNewPatient(patient);
+        return "Patient Added";
     }
 
     @PostMapping("/discharge/{name}")
-    public void dischargePatient(@PathVariable String name)
+    public void dischargePatient(@PathVariable String id)
     {
-        mongoConnector.removePatientRecord(name);
+        mongoConnector.removePatientRecord(id);
     }
 }
