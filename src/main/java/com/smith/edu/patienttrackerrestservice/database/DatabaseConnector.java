@@ -38,7 +38,8 @@ public interface DatabaseConnector
     /**
      * Method for updating a patient record with new details.
      * @param id - String representing the id of the patient record to be updated
+     * @param patient - Patient object containing only updated attributes, unchanged values appear as "undefined", "" or null
      * @return Patient - The updated patient record
      */
-    Patient updatePatientRecord(String id);
+    Patient updatePatientRecord(String id, Patient patient);
 }
