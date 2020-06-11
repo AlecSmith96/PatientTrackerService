@@ -38,9 +38,15 @@ public class PatientController
         return "Patient Added";
     }
 
-    @PostMapping("/discharge/{name}")
+    @PostMapping("/discharge/{id}")
     public void dischargePatient(@PathVariable String id)
     {
         mongoConnector.removePatientRecord(id);
+    }
+
+    @PostMapping("update/{id}")
+    public void updatePatientDetails(@PathVariable String id)
+    {
+        mongoConnector.updatePatientRecord(id);
     }
 }

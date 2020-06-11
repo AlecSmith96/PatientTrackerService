@@ -144,4 +144,11 @@ public class MongoConnector implements DatabaseConnector
         collection.deleteOne(eq("_id", id))/*.wasAcknowledged()*/;       //returns true if record deleted, can be used for error handling later
         collection.deleteMany(eq("patient_id", id));
     }
+
+    @Override
+    public Patient updatePatientRecord(String id)
+    {
+
+        return null;
+    }
 }

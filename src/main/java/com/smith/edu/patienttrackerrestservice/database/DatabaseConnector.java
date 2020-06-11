@@ -34,4 +34,11 @@ public interface DatabaseConnector
      * @param name - String representing the name of the patient.
      */
     void removePatientRecord(String name);
+
+    /**
+     * Method for updating a patient record with new details.
+     * @param id - String representing the id of the patient record to be updated
+     * @return Patient - The updated patient record
+     */
+    Patient updatePatientRecord(String id);
 }
